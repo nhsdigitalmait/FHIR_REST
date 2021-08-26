@@ -1,0 +1,80 @@
+{
+  "resourceType": "Bundle",
+  "meta": {
+    "profile": [
+      "https://fhir.nhs.uk/StructureDefinition/spine-searchset-bundle-1"
+    ]
+  },
+  "entry": [
+    {
+      "resource": {
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "0001",
+              "display": "Visitors and Migrants status observation",
+              "system": "https://fhir.nhs.uk/fhir-observation-code-1"
+            }
+          ]
+        },
+        "resourceType": "Observation",
+        "component": [
+          {
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "code": "U",
+                  "display": "Unset",
+                  "system": "https://fhir.nhs.uk/spine-chargeable-status-1"
+                }
+              ]
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "BASIC_CHARGEABLE_STATUS",
+                  "display": "Basic Chargeable Status",
+                  "system": "https://fhir.nhs.uk/spine-vm-observation-component-1"
+                }
+              ]
+            }
+          },
+          {
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "code": "NONE",
+                  "display": "None",
+                  "system": "https://fhir.nhs.uk/spine-category-status-1"
+                }
+              ]
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "CATEGORY_CHARGEABLE_STATUS",
+                  "display": "Category Chargeable Status",
+                  "system": "https://fhir.nhs.uk/spine-vm-observation-component-1"
+                }
+              ]
+            }
+          }
+        ],
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/StructureDefinition/spine-vm-observation-1"
+          ]
+        },
+        "id": "dem-0001-b48de30a1c4b9156b9d3be9efd547857",
+        "subject": {
+          "display": "NOWAB, CAMDEN (MR)",
+          "reference": "Patient/9651986204"
+        }
+      }
+    }
+  ],
+  "total": 1,
+  "type": "searchset",
+  "id": "ce4383f5-e4e6-45d7-b58b-9c56a77be9fb"
+}

@@ -1,0 +1,117 @@
+<Bundle xmlns="http://hl7.org/fhir">
+	<id value="__IA_BUNDLE_UUID__"/>
+	<meta>
+		<profile value="https://fhir.nhs.uk/StructureDefinition/itk-message-bundle-1"/>
+	</meta>
+	<type value="message"/>
+	<entry>
+		<fullUrl value="urn:uuid:__IA_MESSAGE_HEADER_UUID__"/>
+		<resource>
+			<MessageHeader>
+				<id value="__IA_MESSAGE_HEADER_UUID__"/>
+				<meta>
+					<profile value="https://fhir.nhs.uk/StructureDefinition/itk-infack-messageheader-1"/>
+				</meta>
+				<extension url="https://fhir.nhs.uk/StructureDefinition/extension-itk-messagehandling-1">
+					<extension url="key">
+						<valueCodeableConcept>
+							<coding>
+								<system value="https://fhir.nhs.uk/itk-handling-key-1"/>
+								<code value="SNDSRVC"/>
+								<display value="Sending Service"/>
+							</coding>
+						</valueCodeableConcept>
+					</extension>
+					<extension url="value">
+						<valueString value="SendDocument-v1-0"/>
+					</extension>
+				</extension>
+				<extension url="https://fhir.nhs.uk/StructureDefinition/extension-itk-messagehandling-1">
+					<extension url="key">
+						<valueCodeableConcept>
+							<coding>
+								<system value="https://fhir.nhs.uk/itk-handling-key-1"/>
+								<code value="INTID"/>
+								<display value="Interaction ID"/>
+							</coding>
+						</valueCodeableConcept>
+					</extension>
+					<extension url="value">
+						<valueString value="RSP-ITK-Infrastructure-Acknowledgement-Response-1"/>
+					</extension>
+				</extension>
+				<extension url="https://fhir.nhs.uk/StructureDefinition/extension-itk-messagehandling-1">
+					<extension url="key">
+						<valueCodeableConcept>
+							<coding>
+								<system value="https://fhir.nhs.uk/itk-handling-key-1"/>
+								<code value="INFACK"/>
+								<display value="Infrastructure Acknowledgement"/>
+							</coding>
+						</valueCodeableConcept>
+					</extension>
+					<extension url="value">
+						<valueBoolean value="false"/>
+					</extension>
+				</extension>
+				<extension url="https://fhir.nhs.uk/StructureDefinition/extension-itk-messagehandling-1">
+					<extension url="key">
+						<valueCodeableConcept>
+							<coding>
+								<system value="https://fhir.nhs.uk/itk-handling-key-1"/>
+								<code value="SNDO"/>
+								<display value="Send Only"/>
+							</coding>
+						</valueCodeableConcept>
+					</extension>
+					<extension url="value">
+						<valueBoolean value="true"/>
+					</extension>
+				</extension>
+				<timestamp value="__TIMESTAMP__"/>
+				<event>
+					<system value="https://fhir.nhs.uk/itk-message-event-1"/>
+					<code value="ITK001"/>
+					<display value="Message structure validation check"/>
+				</event>
+				<response>
+					<identifier value="__REQUEST_UUID__"/>
+					<code value="__RESPONSE_CODE__"/>
+					<details>
+						<reference value="OperationOutcome/__IA_OPERATION_OUTCOME_UUID__"/>
+					</details>
+				</response>
+				<source>
+					<endpoint value="__REQUEST_DEST_ENDPOINT__"/>
+				</source>
+				<destination>
+					<endpoint value="__REQUEST_SOURCE_ENDPOINT__"/>
+				</destination>
+			</MessageHeader>
+		</resource>
+	</entry>
+	<entry>
+		<fullUrl value="urn:uuid:__IA_OPERATION_OUTCOME_UUID__"/>
+		<resource>
+			<OperationOutcome>
+				<id value="__IA_OPERATION_OUTCOME_UUID__"/>
+				<meta>
+					<profile value="https://fhir.nhs.uk/StructureDefinition/itk-ack-operationoutcome-1"/>
+				</meta>
+				<issue>
+					<!-- fatal | errror | warning | information -->
+					<severity value="__ISSUE_SEVERITY__"/>
+					<!-- level 1 : invalid | security | processing | transient | informational -->
+					<code value="__ISSUE_CODE__"/>
+					<details>
+						<coding>
+							<system value="http://hl7.org/fhir/operation-outcome"/>
+							<code value="__ERRORCODE__"/>
+							<display value="__ERRORTEXT__"/>
+						</coding>
+					</details>
+				</issue>
+			</OperationOutcome>
+		</resource>
+	</entry>
+</Bundle>

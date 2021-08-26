@@ -1,0 +1,1 @@
+/mnt/encrypted/home/simonfarrow/Documents/NetBeansProjects/JWTTools/src/authorisation/jwt_template_no_smartcard.txt

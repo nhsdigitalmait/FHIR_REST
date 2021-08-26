@@ -1,0 +1,61 @@
+# Simulator rule definition file for ITK Testbench
+#  Messages this handles FGM messaging although its a mix done for testing SSP that uses 4 http methods discrimaited on contect path
+# it is similar to the config on the Ingleboriugh responder
+#
+BEGIN RESPONSES
+largePositiveResponse	TKW_ROOT/config/FHIR_REST/simulator_config/fgm_responses/Response_FGM_Record_FGMQuery_9999999998.xml "200 OK"
+positiveResponse	TKW_ROOT/config/FHIR_REST/simulator_config/fgm_responses/Response_FGM_Record_FGMQuery_9999999999.xml "200 OK"
+invalidNHSNo	TKW_ROOT/config/FHIR_REST/simulator_config/fgm_responses/Response_FGM_NHS_Num_Invalid.xml "200 OK"
+empty_response class:uk.nhs.digital.mait.tkwx.tk.internalservices.rules.routingactor.ackextension.SendEmptyResponse 404
+9999999997Response	TKW_ROOT/config/FHIR_REST/simulator_config/fgm_responses/Response_FGM_Record_FGMQuery_9999999997.xml "200 OK"
+9999999996Response	TKW_ROOT/config/FHIR_REST/simulator_config/fgm_responses/Response_FGM_Record_FGMQuery_9999999996.xml "200 OK"
+9999999995Response	TKW_ROOT/config/FHIR_REST/simulator_config/fgm_responses/Response_FGM_Record_FGMQuery_9999999995.xml "200 OK"
+do_process	NONE	0
+END RESPONSES
+
+BEGIN SUBSTITUTIONS
+__MESSAGEID__	UUID
+__TIMESTAMP__	ISO8601datetime
+__JOBID__	UUID
+__ERRORID__	UUID
+__ERRORCODE__	Literal	1000
+__ERRORTEXT__	Literal Invalid message
+__ERRORDETAIL__	Literal	Test message rejection
+__IDENTIFIER__ Literal 9999999999
+# this tag does not have to appear in the response template, every request is scanned for 9999999999 and causes a 20s delay if there's a match
+__DELAY__ Class uk.nhs.digital.mait.tkwx.tk.internalservices.rules.DelaySubstitution "9999999999 20"
+END SUBSTITUTIONS
+
+# these predate the enhancements to the restful rules engine the default has changed from context path to content
+# so we add context_path as the source to force the previous required behaviour
+BEGIN EXPRESSIONS
+EXP_1	context_path matches ^.*/9999999999.*$
+EXP_2	context_path matches ^.*/9999999998.*$
+EXP_3	context_path matches ^.*/9999999997.*$
+EXP_4	context_path matches ^.*/9999999996.*$
+EXP_5	context_path matches ^.*/9999999995.*$
+EXP_6	context_path contains fgm
+passthrough	Always
+END EXPRESSIONS
+
+# all these rules apply to the context path not the content because this is a set of rules for the restful rules engine
+BEGIN RULE
+GET
+IF	EXP_1	then	positiveResponse
+IF	EXP_2	then	largePositiveResponse else empty_response
+END RULE
+
+BEGIN RULE
+POST
+IF	EXP_3	then	9999999997Response else empty_response
+END RULE
+
+BEGIN RULE
+PUT
+IF	EXP_4	then	9999999996Response else empty_response
+END RULE
+
+BEGIN RULE
+DELETE
+IF	EXP_5	then	9999999995Response else empty_response
+END RULE

@@ -1,0 +1,59 @@
+# Simulator rule definition file for ITK Testbench
+#  Messages Visitors and Migrants
+#
+BEGIN RESPONSES
+largePositiveResponse	TKW_ROOT/config/FHIR_REST/simulator_config/fgm_responses/Response_FGM_Record_FGMQuery_9999999998.xml "200 OK"
+positiveResponse	TKW_ROOT/config/FHIR_REST/simulator_config/VandM_response.xml "200 OK"
+invalidNHSNo	TKW_ROOT/config/FHIR_REST/simulator_config/fgm_responses/Response_FGM_NHS_Num_Invalid.xml "200 OK"
+empty_response class:org.warlock.tk.internalservices.rules.routingactor.ackextension.SendEmptyResponse 404
+9999999997Response	TKW_ROOT/config/FHIR_REST/simulator_config/fgm_responses/Response_FGM_Record_FGMQuery_9999999997.xml "200 OK"
+9999999996Response	TKW_ROOT/config/FHIR_REST/simulator_config/fgm_responses/Response_FGM_Record_FGMQuery_9999999996.xml "200 OK"
+9999999995Response	TKW_ROOT/config/FHIR_REST/simulator_config/fgm_responses/Response_FGM_Record_FGMQuery_9999999995.xml "200 OK"
+do_process	NONE	0
+END RESPONSES
+
+BEGIN SUBSTITUTIONS
+__MESSAGEID__	UUID
+__TIMESTAMP__	ISO8601datetime
+__JOBID__	UUID
+__ERRORID__	UUID
+__ERRORCODE__	Literal	1000
+__ERRORTEXT__	Literal Invalid message
+__ERRORDETAIL__	Literal	Test message rejection
+__IDENTIFIER__ Literal 9999999999
+__DELAY__ Class org.warlock.tk.internalservices.rules.DelaySubstitution "9999999999 20"
+END SUBSTITUTIONS
+
+# all the "match/contains" rules apply to the content by default to use the context path it must be specified as below
+BEGIN EXPRESSIONS
+#EXP_1	HTTP_HEADER Accept matches ^.*application/xml\+fhir.*$
+EXP_1	HTTP_HEADER Ssp-InteractionID matches ^urn:nhs:names:services:visitorsandmigrants:fhir:rest:search:observation$
+#EXP_1	context_path matches ^.*9651986204.*$
+EXP_2	matches ^.*9999999998.*$
+EXP_3	matches ^.*9999999997.*$
+EXP_4	matches ^.*9999999996.*$
+EXP_5	matches ^.*9999999995.*$
+EXP_6	contains fgm
+passthrough	Always
+END EXPRESSIONS
+
+BEGIN RULE
+GET+urn:nhs:names:services:visitorsandmigrants:fhir:rest:search:observation
+IF	EXP_1	then	positiveResponse
+IF	EXP_2	then	largePositiveResponse else empty_response
+END RULE
+
+BEGIN RULE
+POST
+if passthrough then empty_response
+END RULE
+
+BEGIN RULE
+PUT
+if passthrough then empty_response
+END RULE
+
+BEGIN RULE
+DELETE
+if passthrough then empty_response
+END RULE

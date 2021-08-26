@@ -1,0 +1,62 @@
+# Simulator rule definition file for ITK Testbench
+#  FHIR Messaging simulator config
+#  was for ToC ITK3 which eventually used MESH not http
+# includes mainly simulator config for routing actors ITK bus inf ack returns
+#
+BEGIN RESPONSES
+inf_nack_9999	class:uk.nhs.digital.mait.tkwx.tk.internalservices.rules.routingactor.FHIRITKRoutingActorAckOnly "200 OK" 9999
+inf_ack_only_41001	class:uk.nhs.digital.mait.tkwx.tk.internalservices.rules.routingactor.FHIRITKRoutingActorAckOnly "200 OK" 41001
+acks_41001	class:uk.nhs.digital.mait.tkwx.tk.internalservices.rules.routingactor.FHIRITKRoutingActor "200 OK" 41001
+operation_outcome_400 TKW_ROOT/config/FHIR_REST/simulator_config/operation_outcomes/operation_outcome.xml 400
+operation_outcome_404 TKW_ROOT/config/FHIR_REST/simulator_config/operation_outcomes/operation_outcome.xml 404
+operation_outcome_422 TKW_ROOT/config/FHIR_REST/simulator_config/operation_outcomes/operation_outcome.xml 422
+operation_outcome_499 TKW_ROOT/config/FHIR_REST/simulator_config/operation_outcomes/operation_outcome.xml 499
+do_process	NONE	0
+END RESPONSES
+
+BEGIN SUBSTITUTIONS
+__IA_BUNDLE_UUID__	UUID
+__IA_MESSAGE_HEADER_UUID__	UUID
+__IA_OPERATION_OUTCOME_UUID__ UUID
+__BA_BUNDLE_UUID__	UUID
+__BA_MESSAGE_HEADER_UUID__	UUID
+__BA_OPERATION_OUTCOME_UUID__ UUID
+__TIMESTAMP__	ISO8601datetime
+__JOBID__	UUID
+__ERRORID__	UUID
+__IDENTIFIER__ Literal 9999999999
+# this tag does not have to appear in the response template, every request is scanned for 9999999999 and causes a 20s delay if there's a match
+#__DELAY__ Class uk.nhs.digital.mait.tkwx.tk.internalservices.rules.DelaySubstitution "9999999999 20"
+__REQUEST_UUID__	Xpath /fhir:Bundle/fhir:id/@value
+__REQUEST_SOURCE_ENDPOINT__ Xpath /fhir:Bundle/fhir:entry/fhir:resource/fhir:MessageHeader/fhir:source/fhir:endpoint/@value
+__REQUEST_DEST_ENDPOINT__ Xpath /fhir:Bundle/fhir:entry/fhir:resource/fhir:MessageHeader/fhir:destination/fhir:endpoint/@value
+END SUBSTITUTIONS
+
+BEGIN EXPRESSIONS
+EMPTY_CONTEXT	content matches ^$
+passthrough	Always
+END EXPRESSIONS
+
+# here for testing some fhir messaging not for gp_connect
+BEGIN RULE
+#POST+urn:nhs:names:services:fhirmessaging
+POST
+#if passthrough then inf_nack_9999
+#if passthrough then inf_ack_only_41001
+if passthrough then acks_41001
+END RULE
+
+BEGIN RULE
+GET
+if passthrough then operation_outcome_404
+END RULE
+
+BEGIN RULE
+PUT
+if passthrough then operation_outcome_404
+END RULE
+
+BEGIN RULE
+DELETE
+if passthrough then operation_outcome_404
+END RULE

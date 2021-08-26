@@ -1,0 +1,102 @@
+<Bundle xmlns="http://hl7.org/fhir">
+	<id value="__BA_BUNDLE_UUID__"/>
+	<meta>
+		<profile value="https://fhir.nhs.uk/StructureDefinition/itk-message-bundle-1"/>
+	</meta>
+	<type value="message"/>
+	<entry>
+		<fullUrl value="urn:uuid:__BA_MESSAGE_HEADER_UUID__"/>
+		<resource>
+			<MessageHeader>
+				<id value="__BA_MESSAGE_HEADER_UUID__"/>
+				<meta>
+					<profile value="https://fhir.nhs.uk/StructureDefinition/itk-messageheader-1"/>
+				</meta>
+				<extension url="https://fhir.nhs.uk/StructureDefinition/extension-itk-messagehandling-1">
+					<extension url="key">
+						<valueCodeableConcept>
+							<coding>
+								<system value="https://fhir.nhs.uk/itk-handling-key-1"/>
+								<code value="INTID"/>
+								<display value="Interaction ID"/>
+							</coding>
+						</valueCodeableConcept>
+					</extension>
+					<extension url="value">
+						<valueString value="RSP-ITK-Business-Acknowledgement-Response-1"/>
+					</extension>
+				</extension>
+				<extension url="https://fhir.nhs.uk/StructureDefinition/extension-itk-messagehandling-1">
+					<extension url="key">
+						<valueCodeableConcept>
+							<coding>
+								<system value="https://fhir.nhs.uk/itk-handling-key-1"/>
+								<code value="BUSACK"/>
+								<display value="Business Acknowledgement"/>
+							</coding>
+						</valueCodeableConcept>
+					</extension>
+					<extension url="value">
+						<valueBoolean value="true"/>
+					</extension>
+				</extension>
+				<extension url="https://fhir.nhs.uk/StructureDefinition/extension-itk-messagehandling-1">
+					<extension url="key">
+						<valueCodeableConcept>
+							<coding>
+								<system value="https://fhir.nhs.uk/itk-handling-key-1"/>
+								<code value="SNDO"/>
+								<display value="Send Only"/>
+							</coding>
+						</valueCodeableConcept>
+					</extension>
+					<extension url="value">
+						<valueBoolean value="true"/>
+					</extension>
+				</extension>
+				<timestamp value="__TIMESTAMP__"/>
+				<event>
+					<system value="https://fhir.nhs.uk/itk-message-event-1"/>
+					<code value="ITK002"/>
+					<display value="Business layer validation check"/>
+				</event>
+				<response>
+					<identifier value="__REQUEST_UUID__"/>
+					<code value="__RESPONSE_CODE__"/>
+					<details>
+                        <!-- TODO example had urn:uuid: prefix-->
+						<reference value="OperationOutcome/__BA_OPERATION_OUTCOME_UUID__"/>
+					</details>
+				</response>
+				<source>
+					<endpoint value="__REQUEST_DEST_ENDPOINT__"/>
+				</source>
+				<destination>
+					<endpoint value="__REQUEST_SOURCE_ENDPOINT__"/>
+				</destination>
+			</MessageHeader>
+		</resource>
+	</entry>
+	<entry>
+		<fullUrl value="urn:uuid:__BA_OPERATION_OUTCOME_UUID__"/>
+		<resource>
+			<OperationOutcome>
+				<id value="__BA_OPERATION_OUTCOME_UUID__"/>
+				<meta>
+					<profile value="https://fhir.nhs.uk/StructureDefinition/itk-ack-operationoutcome-1"/>
+				</meta>
+				<issue>
+					<severity value="__ISSUE_SEVERITY__"/>
+					<code value="__ISSUE_CODE__"/>
+					<details>
+						<coding>
+							<system value="https://fhir.nhs.uk/itk-acknowledgement-1"/>
+							<code value="__ERRORCODE__"/>
+							<display value="__ERRORTEXT__"/>
+						</coding>
+					</details>
+				</issue>
+			</OperationOutcome>
+		</resource>
+	</entry>
+</Bundle>
